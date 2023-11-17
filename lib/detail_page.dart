@@ -1,5 +1,6 @@
 import 'package:charging_station/api_osrm.dart';
 import 'package:charging_station/consts.dart';
+import 'package:charging_station/direction_page.dart';
 import 'package:charging_station/models/gas_station.dart';
 import 'package:charging_station/models/overviews.dart';
 import 'package:charging_station/widgets/custom_marker.dart';
@@ -189,6 +190,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                   ]),
             ),
             Positioned(
+              top: 39.h,
               bottom: 0,
               left: 0,
               right: 0,
@@ -199,202 +201,209 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                     color: black,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(5.w))),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(5.w),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.local_gas_station,
-                                color: white,
-                                size: 6.f,
-                              ),
-                              SizedBox(width: 1.w),
-                              Expanded(
-                                child: Text(
-                                  widget.gasStation.name,
-                                  style: roboto.copyWith(
-                                      fontSize: 6.f, color: white),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(5.w),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.local_gas_station,
+                                  color: white,
+                                  size: 6.f,
                                 ),
-                              ),
-                              Column(
-                                children: [
-                                  Row(
+                                SizedBox(width: 1.w),
+                                Expanded(
+                                  child: Text(
+                                    widget.gasStation.name,
+                                    style: roboto.copyWith(
+                                        fontSize: 6.f, color: white),
+                                  ),
+                                ),
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          CupertinoIcons.battery_25,
+                                          color: blue,
+                                          size: 10.f,
+                                        ),
+                                        SizedBox(
+                                          width: 2.w,
+                                        ),
+                                        Text(
+                                          '14.4%',
+                                          style: roboto.copyWith(
+                                              fontSize: 9.f, color: white),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      '20 Km left',
+                                      style: roboto.copyWith(
+                                          fontSize: 5.f, color: grey),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      '${(distance / 1000).toStringAsFixed(1)} Km',
+                                      style: roboto.copyWith(
+                                          fontSize: 8.f, color: white),
+                                    ),
+                                    Text(
+                                      'Distance',
+                                      style: roboto.copyWith(
+                                          fontSize: 6.f, color: grey),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(width: 5.w),
+                                Column(
+                                  children: [
+                                    Text(
+                                      '25 Mins',
+                                      style: roboto.copyWith(
+                                          fontSize: 8.f, color: white),
+                                    ),
+                                    Text(
+                                      'Avg Time',
+                                      style: roboto.copyWith(
+                                          fontSize: 6.f, color: grey),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            width: 100.w,
+                            padding: EdgeInsets.all(5.w),
+                            decoration: BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(5.w))),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Overviews',
+                                  style: roboto.copyWith(
+                                    fontSize: 10.f,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 2.h),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 2.w, horizontal: 2.5.w),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: black.withOpacity(.5)),
+                                      borderRadius:
+                                          BorderRadius.circular(2.5.w)),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Icon(
-                                        CupertinoIcons.battery_25,
-                                        color: blue,
-                                        size: 10.f,
+                                        Icons.location_on,
+                                        color: black,
+                                        size: 5.f,
                                       ),
                                       SizedBox(
                                         width: 2.w,
                                       ),
-                                      Text(
-                                        '14.4%',
-                                        style: roboto.copyWith(
-                                            fontSize: 9.f, color: white),
+                                      Expanded(
+                                        child: Text(
+                                          widget.gasStation.address,
+                                          style: roboto.copyWith(
+                                            height: 1,
+                                            fontSize: 5.5.f,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  Text(
-                                    '20 Km left',
-                                    style: roboto.copyWith(
-                                        fontSize: 5.f, color: grey),
+                                ),
+                                SizedBox(height: 2.h),
+                                SingleChildScrollView(
+                                  clipBehavior: Clip.none,
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      ...List.generate(
+                                          overviews.length,
+                                          (index) => Padding(
+                                                padding: index == 0
+                                                    ? const EdgeInsets.only()
+                                                    : index == 2
+                                                        ? EdgeInsets.only(
+                                                            right: 5.w,
+                                                            left: 2.5.w)
+                                                        : EdgeInsets.only(
+                                                            left: 2.5.w),
+                                                child: OverviewItem(
+                                                  icon: overviews[index]
+                                                      ['icon'],
+                                                  text1: overviews[index]
+                                                      ['text1'],
+                                                  text2: overviews[index]
+                                                      ['text2'],
+                                                ),
+                                              ))
+                                    ],
                                   ),
-                                ],
-                              )
-                            ],
+                                ),
+                                SizedBox(height: 2.h),
+                                Container(
+                                  width: double.infinity,
+                                  height: 15.h,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(2.5.w),
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              widget.gasStation.image),
+                                          fit: BoxFit.cover)),
+                                )
+                              ],
+                            ),
                           ),
-                          Row(
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    '${(distance / 1000).toStringAsFixed(1)} Km',
-                                    style: roboto.copyWith(
-                                        fontSize: 8.f, color: white),
-                                  ),
-                                  Text(
-                                    'Distance',
-                                    style: roboto.copyWith(
-                                        fontSize: 6.f, color: grey),
-                                  )
-                                ],
-                              ),
-                              SizedBox(width: 5.w),
-                              Column(
-                                children: [
-                                  Text(
-                                    '25 Mins',
-                                    style: roboto.copyWith(
-                                        fontSize: 8.f, color: white),
-                                  ),
-                                  Text(
-                                    'Avg Time',
-                                    style: roboto.copyWith(
-                                        fontSize: 6.f, color: grey),
-                                  )
-                                ],
-                              ),
-                            ],
+                          Positioned(
+                            right: 2.5.w,
+                            top: -6.h,
+                            child: Image.asset(
+                              'assets/bmw_i8.png',
+                              width: 50.w,
+                            ),
                           )
                         ],
-                      ),
-                    ),
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Container(
-                          width: 100.w,
-                          padding: EdgeInsets.all(5.w),
-                          decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(5.w))),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Overviews',
-                                style: roboto.copyWith(
-                                  fontSize: 10.f,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 2.h),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 2.w, horizontal: 2.5.w),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: black.withOpacity(.5)),
-                                    borderRadius: BorderRadius.circular(2.5.w)),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.location_on,
-                                      color: black,
-                                      size: 5.f,
-                                    ),
-                                    SizedBox(
-                                      width: 2.w,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        widget.gasStation.address,
-                                        style: roboto.copyWith(
-                                          height: 1,
-                                          fontSize: 5.5.f,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 2.h),
-                              SingleChildScrollView(
-                                clipBehavior: Clip.none,
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    ...List.generate(
-                                        overviews.length,
-                                        (index) => Padding(
-                                              padding: index == 0
-                                                  ? const EdgeInsets.only()
-                                                  : index == 2
-                                                      ? EdgeInsets.only(
-                                                          right: 5.w,
-                                                          left: 2.5.w)
-                                                      : EdgeInsets.only(
-                                                          left: 2.5.w),
-                                              child: OverviewItem(
-                                                icon: overviews[index]['icon'],
-                                                text1: overviews[index]
-                                                    ['text1'],
-                                                text2: overviews[index]
-                                                    ['text2'],
-                                              ),
-                                            ))
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 2.h),
-                              Container(
-                                width: double.infinity,
-                                height: 15.h,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(2.5.w),
-                                    image: DecorationImage(
-                                        image:
-                                            AssetImage(widget.gasStation.image),
-                                        fit: BoxFit.cover)),
-                              )
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          right: 2.5.w,
-                          top: -6.h,
-                          child: Image.asset(
-                            'assets/bmw_i8.png',
-                            width: 50.w,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             )
           ],
         ),
       ),
+      extendBody: true,
       bottomSheet: Container(
         padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.5.w),
         decoration: const BoxDecoration(color: white),
@@ -416,22 +425,34 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                       style: roboto.copyWith(
                           fontSize: 6.f, color: black.withOpacity(.5)))
                 ])),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              decoration: BoxDecoration(
-                  color: blue, borderRadius: BorderRadius.circular(5.w)),
-              child: Row(
-                children: [
-                  Text(
-                    'Direction',
-                    style: roboto.copyWith(fontSize: 6.f, color: white),
-                  ),
-                  SizedBox(width: 2.w),
-                  const Icon(
-                    Icons.directions,
-                    color: white,
-                  )
-                ],
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DirectionPage(
+                              gasStation: widget.gasStation,
+                              sourceLocation: currentLocation,
+                            )));
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                decoration: BoxDecoration(
+                    color: blue, borderRadius: BorderRadius.circular(5.w)),
+                child: Row(
+                  children: [
+                    Text(
+                      'Direction',
+                      style: roboto.copyWith(fontSize: 6.f, color: white),
+                    ),
+                    SizedBox(width: 2.w),
+                    const Icon(
+                      Icons.directions,
+                      color: white,
+                    )
+                  ],
+                ),
               ),
             )
           ],
