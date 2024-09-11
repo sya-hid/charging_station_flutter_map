@@ -26,3 +26,4 @@
 <img src="assets/previews/Screenshot_1699518799.png" width="200">
 <img src="assets/previews/Screenshot_1699518809.png" width="200">
 </p>
+<img src="https://visitor-badge.laobi.icu/badge?page_id=sya-hid.charging_station_flutter_map"/>  
